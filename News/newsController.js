@@ -693,6 +693,37 @@ const viewNewses = async (req, res) => {
     });
 };
 
+
+const viewNewsByJid = (req, res) => {
+  news
+    .find({ jid: req.params.id, isactive: true })
+    .sort({ date: -1 })
+    .exec()
+    .then((data) => {
+      if (data.length > 0) {
+        console.log(data);
+        res.json({
+          status: 200,
+          msg: "Data obtained successfully",
+          data: data,
+        });
+      } else {
+        res.json({
+          status: 500,
+          msg: "No Data obtained",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: 500,
+        msg: "No Data obtained",
+        Error: err,
+      });
+    });
+};
+
 // view  finished
 
 module.exports = {
@@ -709,6 +740,7 @@ module.exports = {
   updateNewsByMedia,
   viewNewsReqMedia,
   updateNewsByAdmin,
+  viewNewsByJid,
   viewFreelancerNewsReqAdmin,
   viewNewsCountById,
   featuredNewses,

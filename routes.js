@@ -59,6 +59,7 @@ router.post("/deleteNewsById/:id", news.delNewsById);
 router.post("/editNewsById/:id", news.editNewsById);
 router.post("/viewNewsById/:id", news.viewNewsById);
 router.post("/viewNewsForHome", news.viewNewsForHome);
+router.post("/viewNewsByJid/:id", news.viewNewsByJid);
 
 
 router.post("/viewNewsByCat/:category", news.viewNewsByCategory);

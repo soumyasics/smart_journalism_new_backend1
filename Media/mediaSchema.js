@@ -30,7 +30,7 @@ const mSchema = mongoose.Schema({
   },
   verified: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   img: Object,
   web: String,
