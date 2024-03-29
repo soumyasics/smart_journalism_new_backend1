@@ -2,7 +2,7 @@
 
 const public=require('./pubSchema')
 const jwt=require('jsonwebtoken')
-
+const news=require('../News/newsSchema')
 const secret = 'your-secret-key'; // Replace this with your own secret key
 
 const createToken = (user) => {
@@ -333,21 +333,31 @@ const verifyKey = (req, res) => {
 
 //Save News
 
-const saveNews=(req,res)=>{
-  let flag=0
-  savedNewses.find({pid:req.params.id,nid:req.body.id}).exec().then(data=>{
+const saveNews=async (req,res)=>{
+  let flag=0,jid=null
+ await savedNewses.find({pid:req.params.id,nid:req.body.id}).exec().then(data=>{
 if(data.length>0){
   flag=1
 }
+ }).catch(err=>{
+  console.log(err);
+})
+await news.findById({_id:req.body.id}).exec().then(datas=>{
+  if(datas){
+    jid=datas.jid
+  }
+  }).catch(err=>{
+    console.log(err);
   })
   if(flag==0){
   let date=new Date()
   const newStudent=new savedNewses({
       pid:req.params.id,
       nid:req.body.id,
-      date:date
+      date:date,
+      jid:jid
   })
-  newStudent.save().then(data=>{
+ await newStudent.save().then(data=>{
       res.json({
           status:200,
           msg:"Inserted successfully",
@@ -380,6 +390,7 @@ const viewSavedNewsByPid=(req,res)=>{
   savedNewses.find({pid:req.params.id})
   .populate('pid')
   .populate('nid')
+  .populate('jid')
   .exec()
   .then(data=>{
 

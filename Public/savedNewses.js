@@ -14,6 +14,11 @@ const Schema=mongoose.Schema({
     date:{
         type:Date,
         required:true
+    },
+    jid:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'journalists'
+        
     }
 });
 module.exports=mongoose.model('savednewses',Schema)
